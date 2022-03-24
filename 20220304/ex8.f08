@@ -7,7 +7,7 @@ program ex8
     count = count + 1
     read *, input
     if (input .gt. secret) print *, 'Your guess is bigger than my secret number. Try again.'
-    if (input .lt. secret) print *, 'Your guess is smaller than my secret number．Try again.'
+    if (input .lt. secret) print *, 'Your guess is smaller than my secret number. Try again.'
   end do
   print *, "You found it! You've tried for", count, "times."
 end program ex8

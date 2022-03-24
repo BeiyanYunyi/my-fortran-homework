@@ -15,7 +15,6 @@ program select
   do i = 1, N - 1
     min = i
     do j = i + 1, N
-      print *, j
       if (randomAry(j) < randomAry(min)) min = j
     end do
     call swap(randomAry(min), randomAry(i))
