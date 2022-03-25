@@ -10,6 +10,7 @@ program main
     real::variance_JAN(stnN), variance_JUL(stnN)
     real::ave_p1(stnN)=0, ave_p2(stnN)=0, ave_change(stnN)=0
     integer::warming_N=0, colding_N=0
+    logical::first30Mask(stnN,YearN)=.false.,last30Mask(stnN,YearN)=.false.
     !Read Data
     open (11, file='t1601.txt')
     read (11, *) ((SAT_JAN(stn_i, Year_i), stn_i=1, stnN), Year_i=1, YearN)
@@ -24,12 +25,12 @@ program main
     clm_JAN = sum(SAT_JAN,2)/YearN
     print*,"Average tempature of every station in January:"
     do i=1,stnN
-        print*,clm_JAN(i)
+        print*,i,":",clm_JAN(i)
     end do
     clm_JUL = sum(SAT_JUL,2)/YearN
     print*,"Average tempature of every station in July:"
     do i=1,stnN
-        print*,clm_JUL(i)
+        print*,i,":",clm_JUL(i)
     end do
     !No.2
     print*,"Max tempature station:",maxloc(clm_JUL,1),"Tempature:",clm_JUL(maxloc(clm_JUL,1))
@@ -50,6 +51,13 @@ program main
     print*,"Max variance station in January:",maxloc(variance_JAN,1)
     print*,"Max variance station in July:",maxloc(variance_JUL,1)
     !No.4
+    !先初始化两个Mask
+    do i=1,stnN
+        do j=1,YearN
+            if(j.le.30) first30Mask(i,j)=.true.
+            if(j>YearN-30) last30Mask(i,j)=.true.
+        end do
+    end do
     warming_N=0
     colding_N=0
     do i=1,stnN
@@ -57,17 +65,9 @@ program main
         ave_p2(i)=0
         ave_change(i)=0
     end do
-    do i=1,stnN
-        do j=1,30
-            ave_p1(i)=ave_p1(i)+(SAT_JAN(i,j)/30)
-        end do
-    end do
-    do i=1,stnN
-        do j=41,70
-            ave_p2(i)=ave_p2(i)+(SAT_JAN(i,j)/30)
-        end do
-        ave_change(i)=ave_p2(i)-ave_p1(i)
-    end do
+    ave_p1=sum(SAT_JAN,2,MASK=first30Mask)/30
+    ave_p2=sum(SAT_JAN,2,MASK=last30Mask)/30
+    ave_change=ave_p2-ave_p1
     do i=1,stnN
         if(ave_change(i)>0) warming_N=warming_N+1
         if(ave_change(i)<0) colding_N=colding_N+1
@@ -82,22 +82,13 @@ program main
         ave_p2(i)=0
         ave_change(i)=0
     end do
-    do i=1,stnN
-        do j=1,30
-            ave_p1(i)=ave_p1(i)+(SAT_JUL(i,j)/30)
-        end do
-    end do
-    do i=1,stnN
-        do j=41,70
-            ave_p2(i)=ave_p2(i)+(SAT_JUL(i,j)/30)
-        end do
-        ave_change(i)=ave_p2(i)-ave_p1(i)
-    end do
+    ave_p1=sum(SAT_JUL,2,MASK=first30Mask)/30
+    ave_p2=sum(SAT_JUL,2,MASK=last30Mask)/30
+    ave_change=ave_p2-ave_p1
     do i=1,stnN
         if(ave_change(i)>0) warming_N=warming_N+1
         if(ave_change(i)<0) colding_N=colding_N+1
     end do
     print*,"January: Warming:",warming_N,"Mostly:",maxloc(ave_change,1)
     print*,"January: Colding:",colding_N,"Mostly:",minloc(ave_change,1)
-
 end program
