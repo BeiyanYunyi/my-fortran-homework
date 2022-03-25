@@ -89,6 +89,6 @@ program main
     if (ave_change(i) > 0) warming_N = warming_N + 1
     if (ave_change(i) < 0) colding_N = colding_N + 1
   end do
-  print *, "January: Warming:", warming_N, "Mostly:", maxloc(ave_change, 1)
-  print *, "January: Colding:", colding_N, "Mostly:", minloc(ave_change, 1)
+  print *, "July: Warming:", warming_N, "Mostly:", maxloc(ave_change, 1)
+  print *, "July: Colding:", colding_N, "Mostly:", minloc(ave_change, 1)
 end program
