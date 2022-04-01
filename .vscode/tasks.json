@@ -11,7 +11,7 @@
         "-g",
         "${file}",
         "-o",
-        "${workspaceRoot}\\${fileBasenameNoExtension}.exe"
+        "${workspaceRoot}\\build\\${fileBasenameNoExtension}.exe"
       ],
       "problemMatcher": [],
       "group": {

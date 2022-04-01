@@ -11,6 +11,8 @@ program main
   real::ave_p1(stnN) = 0, ave_p2(stnN) = 0, ave_change(stnN) = 0
   integer::warming_N = 0, colding_N = 0
   logical::first30Mask(stnN, YearN) = .false., last30Mask(stnN, YearN) = .false.
+  real startTime, endTime
+  call cpu_time(startTime)
   !Read Data
   open (11, file='t1601.txt')
   read (11, *) ((SAT_JAN(stn_i, Year_i), stn_i=1, stnN), Year_i=1, YearN)
@@ -91,4 +93,6 @@ program main
   end do
   print *, "July: Warming:", warming_N, "Mostly:", maxloc(ave_change, 1)
   print *, "July: Colding:", colding_N, "Mostly:", minloc(ave_change, 1)
+  call cpu_time(endTime)
+  write (*, "(f16.14)") endTime - startTime
 end program
