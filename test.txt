@@ -1,0 +1,5 @@
+Alibaba		4367.56
+Tencent		4221.94
+Baidu		601.72
+Meituan		374.12
+JD		359.53
