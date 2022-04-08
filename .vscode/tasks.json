@@ -18,6 +18,13 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "format",
+      "type": "shell",
+      "command": "fprettify",
+      "args": ["-i2", "${file}"],
+      "problemMatcher": []
     }
   ]
 }
