@@ -37,8 +37,7 @@ subroutine loadMonthR(stnN, YearN, fileName, retval)
   do i = 1, stnN
     ! 这样跳过2021
     do j = 1, YearN - 1
-      ! 降水量要÷10
-      retval(i, j) = temp(i, j)/10
+      retval(i, j) = temp(i, j)
     end do
   end do
 end subroutine loadMonthR
